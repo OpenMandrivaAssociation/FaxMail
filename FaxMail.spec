@@ -13,6 +13,7 @@ Patch0: FaxMail-2.3-misc.patch.bz2
 Patch1: FaxMail-2.3-fhs.patch.bz2
 URL: http://www.inference.phy.cam.ac.uk/FaxMail/ 
 Requires: tk >= 4.0, tcl >= 7.5
+BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildRequires: tcl, tk
 
 %description
