@@ -1,6 +1,6 @@
 %define name FaxMail
 %define version 2.3
-%define release %mkrel 12
+%define release %mkrel 13
 
 Summary: A program to send faxes for free via email and the TPC system
 Name: %{name}
