@@ -1,16 +1,12 @@
-%define name FaxMail
-%define version 2.3
-%define release %mkrel 14
-
-Summary: A program to send faxes for free via email and the TPC system
-Name: %{name}
-Version: %{version}
-Release: %{release}
-License: GPL
-Group: Networking/Mail
-Source: ftp://www.inference.phy.cam.ac.uk/pub/www/FaxMail/%{name}-%version.tar.bz2
-Patch0: FaxMail-2.3-misc.patch.bz2
-Patch1: FaxMail-2.3-fhs.patch.bz2
+Summary:	A program to send faxes for free via email and the TPC system
+Name:		FaxMail
+Version:	2.3
+Release:	%{mkrel 15}
+License:	GPLv2+
+Group:		Networking/Mail
+Source0:	ftp://www.inference.phy.cam.ac.uk/pub/www/FaxMail/%{name}-%{version}.tar.bz2
+Patch0:		FaxMail-2.3-misc.patch
+Patch1:		FaxMail-2.3-fhs.patch
 URL: http://www.inference.phy.cam.ac.uk/FaxMail/ 
 Requires: tk >= 4.0, tcl >= 7.5
 BuildRoot: %{_tmppath}/%{name}-buildroot
@@ -27,25 +23,23 @@ via the TPC.INT service.  See http://www.tpc.int/ for details.
 %patch1 -p1 -b .fhs
      
 %build
-make 
+make FAXMAIL_DIR=%{tcl_sitelib}/%{name}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make ROOT="$RPM_BUILD_ROOT" INSTALLMANPATH=%{_mandir} INSTALLINFOPATH=%{_infodir} install
+rm -rf %{buildroot}
+make ROOT="%{buildroot}" INSTALLMANPATH=%{_mandir} INSTALLINFOPATH=%{_infodir} FAXMAIL_DIR=%{tcl_sitelib}/%{name} install
 
 %files
 %defattr(-,root,root)
-%dir %{_datadir}/FaxMail
-%{_datadir}/FaxMail/FaxMail.tcl
-%{_datadir}/FaxMail/cover.lst
+%{tcl_sitelib}/%{name}
 %{_bindir}/FaxMail
 %{_bindir}/tryfax
 %{_mandir}/man1/*
 %{_infodir}/*
-%doc COPYING FaxMail.html HISTORY README
+%doc FaxMail.html HISTORY README
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %post
 %_install_info %{name}.info
