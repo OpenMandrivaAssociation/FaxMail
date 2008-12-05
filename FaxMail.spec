@@ -8,9 +8,11 @@ Source0:	ftp://www.inference.phy.cam.ac.uk/pub/www/FaxMail/%{name}-%{version}.ta
 Patch0:		FaxMail-2.3-misc.patch
 Patch1:		FaxMail-2.3-fhs.patch
 URL: http://www.inference.phy.cam.ac.uk/FaxMail/ 
-Requires: tk >= 4.0, tcl >= 7.5
-BuildRoot: %{_tmppath}/%{name}-buildroot
-BuildRequires: tcl, tk
+Requires:	tk >= 4.0
+Requires:	tcl >= 7.5
+BuildRoot:	%{_tmppath}/%{name}-buildroot
+BuildRequires:	tcl-devel
+BuildRequires:	tk
 
 %description
 This package contains FaxMail, a utility to assist in preparing and
