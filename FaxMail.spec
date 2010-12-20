@@ -25,7 +25,7 @@ via the TPC.INT service.  See http://www.tpc.int/ for details.
 %patch1 -p1 -b .fhs
      
 %build
-make FAXMAIL_DIR=%{tcl_sitelib}/%{name}
+make FAXMAIL_DIR=%{tcl_sitelib}/%{name} CC="cc %optflags %ldflags"
 
 %install
 rm -rf %{buildroot}
