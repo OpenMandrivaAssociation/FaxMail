@@ -1,7 +1,7 @@
 Summary:	A program to send faxes for free via email and the TPC system
 Name:		FaxMail
 Version:	2.3
-Release:	%mkrel 17
+Release:	%mkrel 18
 License:	GPLv2+
 Group:		Networking/Mail
 Source0:	ftp://www.inference.phy.cam.ac.uk/pub/www/FaxMail/%{name}-%{version}.tar.bz2
