@@ -1,0 +1,221 @@
+diff -Naur FaxMail-2.3.orig/Makefile FaxMail-2.3/Makefile
+--- FaxMail-2.3.orig/Makefile	Fri Nov 13 20:13:57 1998
++++ FaxMail-2.3/Makefile	Mon Nov 23 17:58:40 1998
+@@ -2,11 +2,14 @@
+ #		path definitions
+ # --------------------------------------------------------------------
+ 
++# Root directory - All subsequent paths are relative to this one
++ROOT = /
++
+ # where can I put the FaxMail wrapper and the tryfax executable
+-INSTALLBINPATH = /usr/local/bin
++INSTALLBINPATH = /usr/bin
+ 
+ # where can I put the FaxMail manual
+-INSTALLMANPATH = /usr/local/man
++INSTALLMANPATH = /usr/man
+ 
+ # where can I put the FaxMail info page.  If you don't have gnu info,
+ # you can set this to /tmp or something.  If you do, remember to add
+@@ -15,7 +18,7 @@
+ 
+ # what is the toplevel FaxMail directory. 
+ # Contains the coverage list and FaxMail.tcl script.
+-FAXMAIL_DIR = /usr/local/lib/FaxMail
++FAXMAIL_DIR = /usr/lib/FaxMail
+ 
+ # external program locations
+ 
+@@ -39,7 +42,7 @@
+ CFLAGS  = 
+ LDFLAGS =
+ # Uncomment the following line if linking of tryfax fails.
+-#LDFLAGS = -lresolv
++LDFLAGS = -lresolv
+ 
+ 
+ # --------------------------------------------------------------------
+@@ -104,28 +107,28 @@
+ 	fi
+ 
+ install: tryfax faxchk checked
+-	mkdir -p $(FAXMAIL_DIR) 
+-	@echo "Copying FaxMail.tcl to $(FAXMAIL_DIR)......."
+-	@cp FaxMail.tcl $(FAXMAIL_DIR)
+-	@chmod $(INSTALLBINMODE) $(FAXMAIL_DIR)/FaxMail.tcl
+-	@echo "Copying tryfax to $(INSTALLBINPATH)......."
+-	@cp tryfax $(INSTALLBINPATH)
+-	@chmod $(INSTALLBINMODE) $(INSTALLBINPATH)/tryfax
+-	@echo "Copying cover.lst to $(FAXMAIL_DIR)......."
+-	@cp cover.lst $(FAXMAIL_DIR)
+-	@chmod $(INSTALLMANMODE) $(FAXMAIL_DIR)/cover.lst
++	mkdir -p $(ROOT)/{$(FAXMAIL_DIR),$(INSTALLBINPATH),$(INSTALLMANPATH)/man1/,$(INSTALLINFOPATH)}
++	@echo "Copying FaxMail.tcl to $(ROOT)$(FAXMAIL_DIR)......."
++	@cp FaxMail.tcl $(ROOT)$(FAXMAIL_DIR)
++	@chmod $(INSTALLBINMODE) $(ROOT)$(FAXMAIL_DIR)/FaxMail.tcl
++	@echo "Copying tryfax to $(ROOT)$(INSTALLBINPATH)......."
++	@cp tryfax $(ROOT)$(INSTALLBINPATH)
++	@chmod $(INSTALLBINMODE) $(ROOT)$(INSTALLBINPATH)/tryfax
++	@echo "Copying cover.lst to $(ROOT)$(FAXMAIL_DIR)......."
++	@cp cover.lst $(ROOT)$(FAXMAIL_DIR)
++	@chmod $(INSTALLMANMODE) $(ROOT)$(FAXMAIL_DIR)/cover.lst
+ 	@echo "Creating FaxMail executable."
+ 	@echo "#!$(SHELL) -f" > FaxMail
+ 	@echo "$(FAXMAIL_DIR)/FaxMail.tcl \"$(MAIL_CMD)\" \"$(INSTALLBINPATH)/tryfax\" \"$(FAXMAIL_DIR)/cover.lst\" \"$(TMP_DIR)\" " >> FaxMail
+ 	@chmod $(INSTALLBINMODE) FaxMail
+-	@echo "Copying FaxMail to $(INSTALLBINPATH)......."
+-	@cp FaxMail $(INSTALLBINPATH)
+-	@chmod $(INSTALLBINMODE) $(FAXBIN)
++	@echo "Copying FaxMail to $(ROOT)$(INSTALLBINPATH)......."
++	@cp FaxMail $(ROOT)$(INSTALLBINPATH)
++	@chmod $(INSTALLBINMODE) $(ROOT)$(FAXBIN)
+ 	@echo "Installing FaxMail manual and info pages."
+-	@cp FaxMail.1 $(INSTALLMANPATH)/man1/FaxMail.1
+-	@chmod $(INSTALLMANMODE) $(INSTALLMANPATH)/man1/FaxMail.1
+-	@cp FaxMail.info $(INSTALLINFOPATH)/FaxMail.info
+-	@chmod $(INSTALLMANMODE) $(INSTALLINFOPATH)/FaxMail.info
++	@cp FaxMail.1 $(ROOT)$(INSTALLMANPATH)/man1/FaxMail.1
++	@chmod $(INSTALLMANMODE) $(ROOT)$(INSTALLMANPATH)/man1/FaxMail.1
++	@cp FaxMail.info $(ROOT)$(INSTALLINFOPATH)/FaxMail.info
++	@chmod $(INSTALLMANMODE) $(ROOT)$(INSTALLINFOPATH)/FaxMail.info
+ 	@rm checked
+ 
+ clean:
+diff -Naur FaxMail-2.3.orig/Makefile~ FaxMail-2.3/Makefile~
+--- FaxMail-2.3.orig/Makefile~	Thu Jan  1 01:00:00 1970
++++ FaxMail-2.3/Makefile~	Fri Nov 13 20:13:57 1998
+@@ -0,0 +1,133 @@
++# --------------------------------------------------------------------
++#		path definitions
++# --------------------------------------------------------------------
++
++# where can I put the FaxMail wrapper and the tryfax executable
++INSTALLBINPATH = /usr/local/bin
++
++# where can I put the FaxMail manual
++INSTALLMANPATH = /usr/local/man
++
++# where can I put the FaxMail info page.  If you don't have gnu info,
++# you can set this to /tmp or something.  If you do, remember to add
++# in an entry to the `dir' file.
++INSTALLINFOPATH = /usr/info
++
++# what is the toplevel FaxMail directory. 
++# Contains the coverage list and FaxMail.tcl script.
++FAXMAIL_DIR = /usr/local/lib/FaxMail
++
++# external program locations
++
++# where can I find wish 
++WISH_CMD = /usr/bin/wish
++
++# where can I find smail or sendmail
++MAIL_CMD = /usr/lib/sendmail
++
++# where can I store temporary files
++TMP_DIR = /tmp
++# --------------------------------------------------------------------
++#		tools, flags, libraries etc.
++# --------------------------------------------------------------------
++
++MAKE = make
++INSTALL = install
++# where can I find a bourne shell
++SHELL = /bin/sh
++CC = cc
++CFLAGS  = 
++LDFLAGS =
++# Uncomment the following line if linking of tryfax fails.
++#LDFLAGS = -lresolv
++
++
++# --------------------------------------------------------------------
++#		END OF USER CONFIGURATION OPTIONS
++#	You shouldn't need to change anything from here on.
++# --------------------------------------------------------------------
++
++FAXBIN = $(INSTALLBINPATH)/FaxMail
++
++INSTALLBINMODE = 755
++INSTALLMANMODE = 644
++
++TARGET = all
++
++SUBSYSTEMS = FaxMail tryfax
++
++# The regular source and header files.
++
++SOURCES = FaxMail.1 FaxMail.tcl tryfax.c cover.lst
++
++# The derived files. All files, that are autamatically produced during
++# a build process should be listed here.
++
++OBJECTS = tryfax FaxMail
++
++all:	tryfax faxchk checked
++	echo '#!$(WISH_CMD) -f' > FaxMail.tmp
++	grep -v "/bin/wish -f" FaxMail.tcl >> FaxMail.tmp
++	mv FaxMail.tmp FaxMail.tcl
++	chmod $(INSTALLBINMODE) FaxMail.tcl
++	@echo "Creating FaxMail executable."
++	echo "#!$(SHELL) -f" > FaxMail
++	echo "./FaxMail.tcl \"$(MAIL_CMD)\" \"./tryfax\" \"./cover.lst\" \"$(TMP_DIR)\" " >> FaxMail
++	chmod $(INSTALLBINMODE) FaxMail
++
++tryfax: tryfax.c
++	@echo "compiling tryfax program...";
++	$(CC) $(CFLAGS) -o tryfax tryfax.c $(LDFLAGS)
++
++# This rule checks supplied information and creates the file `checked'
++# if satisfactory
++faxchk: 
++	@touch checked;
++	@echo "checking wish interpreter..."; 
++	@if [ -x $(WISH_CMD) ]; then : ; else \
++		echo "Wish interpreter not found at $(WISH_CMD).";\
++		echo "Please check location and try again."; \
++		touch checked;\
++		rm checked;\
++	fi;
++	@echo "checking mailer exists..."; 
++	@if [ -x $(MAIL_CMD) ]; then : ; else \
++		echo "Mailer not found at $(MAIL_CMD).";\
++		echo "Please check location and try again."; \
++	fi;
++	@echo "checking temp directory..."; 
++	@if [ -w $(TMP_DIR) ]; then : ; else \
++		echo "Temp directory $(TMP_DIR) not writeable.";\
++		echo "Please check permissions and try again."; \
++		touch checked;\
++		rm checked;\
++	fi
++
++install: tryfax faxchk checked
++	mkdir -p $(FAXMAIL_DIR) 
++	@echo "Copying FaxMail.tcl to $(FAXMAIL_DIR)......."
++	@cp FaxMail.tcl $(FAXMAIL_DIR)
++	@chmod $(INSTALLBINMODE) $(FAXMAIL_DIR)/FaxMail.tcl
++	@echo "Copying tryfax to $(INSTALLBINPATH)......."
++	@cp tryfax $(INSTALLBINPATH)
++	@chmod $(INSTALLBINMODE) $(INSTALLBINPATH)/tryfax
++	@echo "Copying cover.lst to $(FAXMAIL_DIR)......."
++	@cp cover.lst $(FAXMAIL_DIR)
++	@chmod $(INSTALLMANMODE) $(FAXMAIL_DIR)/cover.lst
++	@echo "Creating FaxMail executable."
++	@echo "#!$(SHELL) -f" > FaxMail
++	@echo "$(FAXMAIL_DIR)/FaxMail.tcl \"$(MAIL_CMD)\" \"$(INSTALLBINPATH)/tryfax\" \"$(FAXMAIL_DIR)/cover.lst\" \"$(TMP_DIR)\" " >> FaxMail
++	@chmod $(INSTALLBINMODE) FaxMail
++	@echo "Copying FaxMail to $(INSTALLBINPATH)......."
++	@cp FaxMail $(INSTALLBINPATH)
++	@chmod $(INSTALLBINMODE) $(FAXBIN)
++	@echo "Installing FaxMail manual and info pages."
++	@cp FaxMail.1 $(INSTALLMANPATH)/man1/FaxMail.1
++	@chmod $(INSTALLMANMODE) $(INSTALLMANPATH)/man1/FaxMail.1
++	@cp FaxMail.info $(INSTALLINFOPATH)/FaxMail.info
++	@chmod $(INSTALLMANMODE) $(INSTALLINFOPATH)/FaxMail.info
++	@rm checked
++
++clean:
++	rm tryfax
++	rm checked

@@ -1,0 +1,11 @@
+--- FaxMail-2.3/Makefile.fhs	2004-05-14 15:46:59.361735744 +0200
++++ FaxMail-2.3/Makefile	2004-05-14 15:54:27.398815528 +0200
+@@ -18,7 +18,7 @@
+ 
+ # what is the toplevel FaxMail directory. 
+ # Contains the coverage list and FaxMail.tcl script.
+-FAXMAIL_DIR = /usr/lib/FaxMail
++FAXMAIL_DIR = /usr/share/FaxMail
+ 
+ # external program locations
+ 
