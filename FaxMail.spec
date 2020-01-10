@@ -21,7 +21,7 @@ via the TPC.INT service.  See http://www.tpc.int/ for details.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
      
 %build
 make FAXMAIL_DIR=%{tcl_sitelib}/%{name} CC="cc %optflags %ldflags"
