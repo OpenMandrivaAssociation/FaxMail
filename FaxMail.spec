@@ -4,7 +4,7 @@ Version:	2.3
 Release:	30
 License:	GPLv2+
 Group:		Networking/Mail
-Url:		http://www.inference.phy.cam.ac.uk/FaxMail/ 
+Url:		https://www.inference.phy.cam.ac.uk/FaxMail/ 
 Source0:	ftp://www.inference.phy.cam.ac.uk/pub/www/FaxMail/%{name}-%{version}.tar.bz2
 Patch0:		FaxMail-2.3-misc.patch
 Patch1:		FaxMail-2.3-fhs.patch
