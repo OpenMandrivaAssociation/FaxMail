@@ -9,6 +9,7 @@ Source0:	ftp://www.inference.phy.cam.ac.uk/pub/www/FaxMail/%{name}-%{version}.ta
 Patch0:		FaxMail-2.3-misc.patch
 Patch1:		FaxMail-2.3-fhs.patch
 
+BuildRequires:	make
 BuildRequires:	pkgconfig(tcl)
 BuildRequires:	tk
 Requires:	tk >= 4.0
